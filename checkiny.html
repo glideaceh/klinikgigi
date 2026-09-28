@@ -245,46 +245,4 @@
         }, 1200); // Waktu loading 1.2 detik
     }
 
-// ================= LOGIKA SCROLL FAB =================
-const checkinContent = document.getElementById('checkinListContainer');
-const fabScanner = document.querySelector('.fab-scanner-wrapper');
-let scrollTimeout;
-
-checkinContent.addEventListener('scroll', () => {
-    // Tambahkan class untuk menyembunyikan tombol dengan animasi saat scroll
-    fabScanner.classList.add('fab-hidden');
-    
-    // Hapus timer sebelumnya jika pengguna masih scroll
-    window.clearTimeout(scrollTimeout);
-    
-    // Set timer baru: jika scroll berhenti selama 300ms, tombol muncul lagi
-    scrollTimeout = setTimeout(() => {
-        fabScanner.classList.remove('fab-hidden');
-    }, 300);
-});
-
-// ================= LOGIKA MODAL TINDAKAN =================
-function openActionModal(no, name, doctor, service) {
-    const modal = document.getElementById('actionModal');
-    if(modal) {
-        // Mengisi data dinamis ke dalam modal
-        document.getElementById('modalNo').innerText = no;
-        document.getElementById('modalPatientName').innerText = name;
-        document.getElementById('modalDoctorName').innerHTML = `<i class="fa-solid fa-user-doctor"></i> ${doctor}`;
-        document.getElementById('modalService').innerText = service;
-        
-        // Memunculkan modal dengan animasi CSS
-        modal.classList.add('active');
-    }
-}
-
-function closeActionModal(event) {
-    const modal = document.getElementById('actionModal');
-    // Jika event ada dan klik bukan pada overlay luar, hentikan event (agar modal tidak tertutup saat konten diklik)
-    if(event && event.target !== modal) return;
-    
-    if (modal) {
-        modal.classList.remove('active');
-    }
-}
 </script>
