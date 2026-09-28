@@ -4,8 +4,80 @@
         <button class="back-btn" onclick="closeCheckInPage()"><i class="fa-solid fa-arrow-left"></i></button>
         <h3 style="font-size: 18px; font-weight: 700;">Check-in Pasien</h3>
     </div>
+    
     <div class="checkin-content" id="checkinListContainer">
-        <!-- Data List Card Check-in otomatis -->
+        
+        <!-- ====== DATA DUMMY 1: Pasien Perempuan ====== -->
+        <div class="reg-queue-card" style="animation-delay: 0s; margin-bottom: 12px;">
+            <div class="reg-card-header">
+                <div class="reg-header-left">
+                    <div class="reg-queue-no">A-01</div>
+                    <div class="reg-time-tag">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>08:30</span>
+                    </div>
+                </div>
+                <!-- Ganti class status sesuai CSS Anda (misal: bg-warning, text-warning) -->
+                <span class="status-badge badge-warning">Menunggu</span>
+            </div>
+            <div class="reg-patient-body">
+                <!-- Warna gradient khusus Perempuan -->
+                <div class="patient-avatar-box" style="background: linear-gradient(135deg, #FCE7F3, #FBCFE8); color: #DB2777;">
+                    SR
+                    <span class="gender-dot female"><i class="fa-solid fa-venus"></i></span>
+                </div>
+                <div class="reg-patient-details">
+                    <h5 class="patient-name">Siti Rahma</h5>
+                    <div class="reg-meta-sub"><span class="rm-badge">RM-102938</span></div>
+                </div>
+            </div>
+            <div class="reg-card-divider"></div>
+            <div class="reg-card-footer">
+                <div class="reg-doctor-info">
+                    <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
+                    <span class="reg-doctor-name">drg. Budi Santoso</span>
+                </div>
+                <button class="btn-checkin-cool" onclick="processCheckIn(this, 'Siti Rahma')">
+                    <i class="fa-solid fa-qrcode"></i> Check-in
+                </button>
+            </div>
+        </div>
+
+        <!-- ====== DATA DUMMY 2: Pasien Laki-laki ====== -->
+        <div class="reg-queue-card" style="animation-delay: 0.05s; margin-bottom: 12px;">
+            <div class="reg-card-header">
+                <div class="reg-header-left">
+                    <div class="reg-queue-no">B-05</div>
+                    <div class="reg-time-tag">
+                        <i class="fa-regular fa-clock"></i>
+                        <span>09:15</span>
+                    </div>
+                </div>
+                <span class="status-badge badge-warning">Menunggu</span>
+            </div>
+            <div class="reg-patient-body">
+                <!-- Warna gradient khusus Laki-laki -->
+                <div class="patient-avatar-box" style="background: linear-gradient(135deg, #E0F2FE, #BAE6FD); color: #0284C7;">
+                    AW
+                    <span class="gender-dot male"><i class="fa-solid fa-mars"></i></span>
+                </div>
+                <div class="reg-patient-details">
+                    <h5 class="patient-name">Ahmad Wijaya</h5>
+                    <div class="reg-meta-sub"><span class="rm-badge">RM-992837</span></div>
+                </div>
+            </div>
+            <div class="reg-card-divider"></div>
+            <div class="reg-card-footer">
+                <div class="reg-doctor-info">
+                    <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
+                    <span class="reg-doctor-name">drg. Anita</span>
+                </div>
+                <button class="btn-checkin-cool" onclick="processCheckIn(this, 'Ahmad Wijaya')">
+                    <i class="fa-solid fa-qrcode"></i> Check-in
+                </button>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -17,74 +89,21 @@
         
         sidebar.classList.remove('active');
         
-        // Tunggu efek animasi slide-out selesai (400ms) sebelum reset
         setTimeout(() => {
             frame.style.overflowY = ''; 
             sidebar.style.top = '0px';
         }, 400); 
     }
 
+    // Biarkan fungsi ini kosong sementara jika Anda hanya ingin melihat desain statis HTML di atas
+    // Hapus komentar isi fungsi jika ingin kembali menggunakan rendering otomatis dari JavaScript
     function renderCheckInList() {
+        /*
         const container = document.getElementById('checkinListContainer');
-        // Akses data dummy dari window object (karena di-load dari file utama)
         const list = window.registrationQueueData ? window.registrationQueueData['today'] : [];
         container.innerHTML = '';
-
-        if (!list || list.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state" style="padding: 40px 20px; text-align: center;">
-                    <i class="fa-solid fa-clipboard-check" style="font-size: 36px; color: #CBD5E1;"></i>
-                    <h4 style="margin-top: 12px; font-size: 15px; color: var(--text-dark);">Tidak Ada Data</h4>
-                    <p style="font-size: 12px; color: var(--text-muted);">Tidak ada pasien untuk di-check-in hari ini.</p>
-                </div>
-            `;
-            return;
-        }
-
-        list.forEach((item, index) => {
-            const avatarHtml = item.avatar 
-                ? `<img src="${item.avatar}" alt="${item.name}">`
-                : `${item.initials}`;
-            
-            const bgStyle = !item.avatar 
-                ? (item.gender === 'female' ? 'background: linear-gradient(135deg, #FCE7F3, #FBCFE8); color: #DB2777;' : 'background: linear-gradient(135deg, #E0F2FE, #BAE6FD); color: #0284C7;') 
-                : '';
-
-            container.innerHTML += `
-                <div class="reg-queue-card" style="animation-delay: ${index * 0.05}s; margin-bottom: 12px;">
-                    <div class="reg-card-header">
-                        <div class="reg-header-left">
-                            <div class="reg-queue-no">${item.no}</div>
-                            <div class="reg-time-tag">
-                                <i class="fa-regular fa-clock"></i>
-                                <span>${item.time}</span>
-                            </div>
-                        </div>
-                        <span class="status-badge ${item.statusClass}">${item.status}</span>
-                    </div>
-                    <div class="reg-patient-body">
-                        <div class="patient-avatar-box" style="${bgStyle}">
-                            ${avatarHtml}
-                            <span class="gender-dot ${item.gender}"><i class="fa-solid fa-${item.gender === 'female' ? 'venus' : 'mars'}"></i></span>
-                        </div>
-                        <div class="reg-patient-details">
-                            <h5 class="patient-name">${item.name}</h5>
-                            <div class="reg-meta-sub"><span class="rm-badge">${item.rm}</span></div>
-                        </div>
-                    </div>
-                    <div class="reg-card-divider"></div>
-                    <div class="reg-card-footer">
-                        <div class="reg-doctor-info">
-                            <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
-                            <span class="reg-doctor-name">${item.doctor}</span>
-                        </div>
-                        <button class="btn-checkin-cool" onclick="processCheckIn(this, '${item.name.replace(/'/g, "\\'")}')">
-                            <i class="fa-solid fa-qrcode"></i> Check-in
-                        </button>
-                    </div>
-                </div>
-            `;
-        });
+        ... (isi kode javascript Anda sebelumnya) ...
+        */
     }
 
     // Animasi Proses Loading Button Check-in
