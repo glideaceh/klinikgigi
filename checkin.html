@@ -39,7 +39,7 @@
                         <span>08:30</span>
                     </div>
                 </div>
-    <button class="btn-action-cool" onclick="openActionModal('A-01', 'Siti Rahma', 'drg. Budi Santoso', 'Check-in & Verifikasi')">
+    <button class="btn-action-cool" onclick="openActionModal('Siti Rahma', 'Pembersihan Karang (Scalling)', 'drg. Budi Santoso', 'A-01')">
         Tindakan <i class="fa-solid fa-arrow-right"></i>
     </button>
             </div>
@@ -76,7 +76,7 @@
                         <span>08:30</span>
                     </div>
                 </div>
-    <button class="btn-action-cool" onclick="openActionModal('A-01', 'Siti Rahma', 'drg. Budi Santoso', 'Check-in & Verifikasi')">
+    <button class="btn-action-cool" onclick="openActionModal('Dian Aulia', 'Pemebrsihan Gigi', 'drg. Budi Santoso', 'A-02')">
         Tindakan <i class="fa-solid fa-arrow-right"></i>
     </button>
             </div>
@@ -113,7 +113,7 @@
                         <span>09:15</span>
                     </div>
                 </div>
-               <button class="btn-action-cool" onclick="openActionModal('B-05', 'Ahmad Wijaya', 'drg. Anita', 'Check-in & Verifikasi')">
+               <button class="btn-action-cool" onclick="openActionModal('Ahmad Wijaya', 'Pemebrsihan Gigi Berlubang', 'drg. Anita', 'B-01')">
         Tindakan <i class="fa-solid fa-arrow-right"></i>
             </div>
             <div class="reg-patient-body">
@@ -149,7 +149,7 @@
                         <span>09:15</span>
                     </div>
                 </div>
-               <button class="btn-action-cool" onclick="openActionModal('B-05', 'Ahmad Wijaya', 'drg. Anita', 'Check-in & Verifikasi')">
+               <button class="btn-action-cool" onclick="openActionModal('Firman Syahputra', 'Pemasangan Behel', 'drg. Anita', 'B-02')">
         Tindakan <i class="fa-solid fa-arrow-right"></i>
             </div>
             <div class="reg-patient-body">
@@ -317,5 +317,23 @@
             }, 300);
         }, 1200); // Waktu loading 1.2 detik
     }
+
+    // ================= LOGIKA SCROLL FAB =================
+const checkinContent = document.getElementById('checkinListContainer');
+const fabScanner = document.querySelector('.fab-scanner-wrapper');
+let scrollTimeout;
+
+checkinContent.addEventListener('scroll', () => {
+    // Tambahkan class untuk menyembunyikan tombol dengan animasi saat scroll
+    fabScanner.classList.add('fab-hidden');
+    
+    // Hapus timer sebelumnya jika pengguna masih scroll
+    window.clearTimeout(scrollTimeout);
+    
+    // Set timer baru: jika scroll berhenti selama 300ms, tombol muncul lagi
+    scrollTimeout = setTimeout(() => {
+        fabScanner.classList.remove('fab-hidden');
+    }, 300);
+});
 
 </script>
