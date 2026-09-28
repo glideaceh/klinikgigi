@@ -1,10 +1,32 @@
 <!-- Struktur UI Halaman Check-In Terpisah -->
 <div class="checkin-sidebar" id="checkinSidebar">
+    
+    <!-- Navbar Header Check-in -->
     <div class="checkin-header">
-        <button class="back-btn" onclick="closeCheckInPage()"><i class="fa-solid fa-arrow-left"></i></button>
-        <h3 style="font-size: 18px; font-weight: 700;">Check-in Pasien</h3>
+        <div class="checkin-header-left">
+            <button class="back-btn" onclick="closeCheckInPage()"><i class="fa-solid fa-arrow-left"></i></button>
+            <h3 class="checkin-header-title">Check-in Pasien</h3>
+        </div>
+
+        <div class="checkin-header-actions">
+            <button class="checkin-icon-btn" onclick="toggleCheckInSearch()" title="Cari Pasien">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <!-- Slide Glassmorphism Search Bar -->
+        <div class="checkin-search-bar" id="checkInSearchBar">
+            <div class="checkin-search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="checkInSearchInput" placeholder="Cari nama atau No RM..." oninput="filterCheckInPatients()">
+            </div>
+            <button class="checkin-search-close" onclick="toggleCheckInSearch()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
     </div>
     
+    <!-- Konten List Pasien -->
     <div class="checkin-content" id="checkinListContainer">
         
         <!-- ====== DATA DUMMY 1: Pasien Perempuan ====== -->
@@ -17,11 +39,9 @@
                         <span>08:30</span>
                     </div>
                 </div>
-                <!-- Ganti class status sesuai CSS Anda (misal: bg-warning, text-warning) -->
                 <span class="status-badge badge-warning">Menunggu</span>
             </div>
             <div class="reg-patient-body">
-                <!-- Warna gradient khusus Perempuan -->
                 <div class="patient-avatar-box" style="background: linear-gradient(135deg, #FCE7F3, #FBCFE8); color: #DB2777;">
                     SR
                     <span class="gender-dot female"><i class="fa-solid fa-venus"></i></span>
@@ -56,7 +76,6 @@
                 <span class="status-badge badge-warning">Menunggu</span>
             </div>
             <div class="reg-patient-body">
-                <!-- Warna gradient khusus Laki-laki -->
                 <div class="patient-avatar-box" style="background: linear-gradient(135deg, #E0F2FE, #BAE6FD); color: #0284C7;">
                     AW
                     <span class="gender-dot male"><i class="fa-solid fa-mars"></i></span>
@@ -78,7 +97,26 @@
             </div>
         </div>
 
+        <!-- Tampilan Ketika Pencarian Tidak Ditemukan -->
+        <div class="checkin-empty-search" id="checkInEmptySearch">
+            <i class="fa-solid fa-user-slash"></i>
+            <h5 style="font-size: 15px; font-weight: 700; color: #334155;">Pasien Tidak Ditemukan</h5>
+            <p style="font-size: 12px; margin-top: 4px;">Coba gunakan kata kunci nama atau No RM yang lain.</p>
+        </div>
+
     </div>
+
+    <!-- Floating Scanner Button (FAB Kanan Bawah) -->
+    <div class="fab-scanner-wrapper">
+        <div class="fab-scanner-pulse"></div>
+        <button class="btn-fab-scanner" onclick="openQRScannerModal()">
+            <div class="scanner-icon-bg">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <span>Scan QR</span>
+        </button>
+    </div>
+
 </div>
 
 <!-- Script Khusus Check-in -->
@@ -87,16 +125,76 @@
         const frame = document.getElementById('mainFrame');
         const sidebar = document.getElementById('checkinSidebar');
         
+        // Tutup search bar jika terbuka saat halaman ditutup
+        const searchBar = document.getElementById('checkInSearchBar');
+        if (searchBar && searchBar.classList.contains('active')) {
+            toggleCheckInSearch();
+        }
+
         sidebar.classList.remove('active');
         
         setTimeout(() => {
-            frame.style.overflowY = ''; 
+            if(frame) frame.style.overflowY = ''; 
             sidebar.style.top = '0px';
         }, 400); 
     }
 
-    // Biarkan fungsi ini kosong sementara jika Anda hanya ingin melihat desain statis HTML di atas
-    // Hapus komentar isi fungsi jika ingin kembali menggunakan rendering otomatis dari JavaScript
+    // Toggle Pencarian
+    function toggleCheckInSearch() {
+        const searchBar = document.getElementById('checkInSearchBar');
+        const searchInput = document.getElementById('checkInSearchInput');
+        
+        searchBar.classList.toggle('active');
+        
+        if (searchBar.classList.contains('active')) {
+            setTimeout(() => {
+                searchInput.focus();
+            }, 300);
+        } else {
+            searchInput.value = '';
+            filterCheckInPatients(); // reset list saat ditutup
+        }
+    }
+
+    // Filter Pasien Real-time
+    function filterCheckInPatients() {
+        const query = document.getElementById('checkInSearchInput').value.toLowerCase().trim();
+        const cards = document.querySelectorAll('#checkinListContainer .reg-queue-card');
+        const emptyState = document.getElementById('checkInEmptySearch');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const patientName = card.querySelector('.patient-name').innerText.toLowerCase();
+            const rmBadge = card.querySelector('.rm-badge').innerText.toLowerCase();
+            const queueNo = card.querySelector('.reg-queue-no').innerText.toLowerCase();
+
+            if (patientName.includes(query) || rmBadge.includes(query) || queueNo.includes(query)) {
+                card.style.display = 'block';
+                card.style.animation = 'fadeIn 0.3s ease forwards';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        if (visibleCount === 0 && cards.length > 0) {
+            emptyState.style.display = 'block';
+        } else {
+            emptyState.style.display = 'none';
+        }
+    }
+
+    // Trigger Mode QR Scanner Floating Button
+    function openQRScannerModal() {
+        // Animasi feedback tombol
+        const fabBtn = document.querySelector('.btn-fab-scanner');
+        fabBtn.style.transform = 'scale(0.92)';
+        setTimeout(() => fabBtn.style.transform = '', 150);
+
+        // Simulasi Aksi Scan QR
+        alert('Kamera QR Code Scanner Berhasil Diaktifkan!\nArahkan kamera ke QR Code / Kartu Pasien untuk Check-in otomatis.');
+    }
+
     function renderCheckInList() {
         /*
         const container = document.getElementById('checkinListContainer');
