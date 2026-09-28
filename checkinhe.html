@@ -222,6 +222,24 @@
 
 <!-- Script Khusus Check-in -->
 <script>
+     // ================= LOGIKA SCROLL FAB =================
+const checkinContent = document.getElementById('checkinListContainer');
+const fabScanner = document.querySelector('.fab-scanner-wrapper');
+let scrollTimeout;
+
+checkinContent.addEventListener('scroll', () => {
+    // Tambahkan class untuk menyembunyikan tombol dengan animasi saat scroll
+    fabScanner.classList.add('fab-hidden');
+    
+    // Hapus timer sebelumnya jika pengguna masih scroll
+    window.clearTimeout(scrollTimeout);
+    
+    // Set timer baru: jika scroll berhenti selama 300ms, tombol muncul lagi
+    scrollTimeout = setTimeout(() => {
+        fabScanner.classList.remove('fab-hidden');
+    }, 300);
+});
+
     function closeCheckInPage() {
         const frame = document.getElementById('mainFrame');
         const sidebar = document.getElementById('checkinSidebar');
@@ -317,23 +335,4 @@
             }, 300);
         }, 1200); // Waktu loading 1.2 detik
     }
-
-    // ================= LOGIKA SCROLL FAB =================
-const checkinContent = document.getElementById('checkinListContainer');
-const fabScanner = document.querySelector('.fab-scanner-wrapper');
-let scrollTimeout;
-
-checkinContent.addEventListener('scroll', () => {
-    // Tambahkan class untuk menyembunyikan tombol dengan animasi saat scroll
-    fabScanner.classList.add('fab-hidden');
-    
-    // Hapus timer sebelumnya jika pengguna masih scroll
-    window.clearTimeout(scrollTimeout);
-    
-    // Set timer baru: jika scroll berhenti selama 300ms, tombol muncul lagi
-    scrollTimeout = setTimeout(() => {
-        fabScanner.classList.remove('fab-hidden');
-    }, 300);
-});
-
 </script>
