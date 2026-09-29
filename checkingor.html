@@ -259,18 +259,25 @@
 
 </div>
 <script>
-function initCheckInScrollEvent() {
+// ==========================================
+    // LOGIC ANIMASI HILANG MUNCUL FAB SAAT SCROLL
+    // ==========================================
     const checkinScrollContainer = document.getElementById('checkinListContainer');
     const checkinFabScanner = document.getElementById('fabScannerWrapper');
     let scrollTimeout;
-    
+
     if (checkinScrollContainer && checkinFabScanner) {
         checkinScrollContainer.addEventListener('scroll', () => {
+            // Tambahkan class .fab-hidden saat proses scroll terjadi
             checkinFabScanner.classList.add('fab-hidden');
+
+            // Bersihkan timer sebelumnya
             clearTimeout(scrollTimeout);
+
+            // Munculkan kembali tombol FAB 300ms setelah scroll berhenti
             scrollTimeout = setTimeout(() => {
                 checkinFabScanner.classList.remove('fab-hidden');
             }, 300);
         });
     }
-}</script>
+</script>
