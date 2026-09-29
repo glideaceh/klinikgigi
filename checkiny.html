@@ -59,6 +59,7 @@
                     <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
                     <span class="reg-doctor-name">drg. Budi Santoso</span>
                 </div>
+                <!-- Tombol Action Check In -->
                 <button class="btn-checkin-cool" style="padding: 8px 16px; background:#00C9A7; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; display:flex; gap:6px; align-items:center; transition:0.3s;" onclick="processCheckIn(this, 'Siti Rahma')">
                     <i class="fa-solid fa-qrcode"></i> Check-in
                 </button>
@@ -72,7 +73,7 @@
                     <div class="reg-queue-no">A-02</div>
                     <div class="reg-time-tag">
                         <i class="fa-regular fa-clock"></i>
-                        <span>08:45</span>
+                        <span>08:30</span>
                     </div>
                 </div>
                 <button class="btn-action-cool" onclick="openActionModal('Dian Aulia', 'Pembersihan Gigi', 'drg. Budi Santoso', 'A-02')">
@@ -95,79 +96,8 @@
                     <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
                     <span class="reg-doctor-name">drg. Budi Santoso</span>
                 </div>
+                <!-- Tombol Action Check In -->
                 <button class="btn-checkin-cool" style="padding: 8px 16px; background:#00C9A7; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; display:flex; gap:6px; align-items:center; transition:0.3s;" onclick="processCheckIn(this, 'Dian Aulia')">
-                    <i class="fa-solid fa-qrcode"></i> Check-in
-                </button>
-            </div>
-        </div>
-        
-        <!-- ====== DATA DUMMY 3: Pasien Laki-laki ====== -->
-        <div class="reg-queue-card" style="animation-delay: 0.05s; margin-bottom: 12px;">
-            <div class="reg-card-header">
-                <div class="reg-header-left">
-                    <div class="reg-queue-no">B-01</div>
-                    <div class="reg-time-tag">
-                        <i class="fa-regular fa-clock"></i>
-                        <span>09:15</span>
-                    </div>
-                </div>
-                <button class="btn-action-cool" onclick="openActionModal('Ahmad Wijaya', 'Pembersihan Gigi Berlubang', 'drg. Anita', 'B-01')">
-                    Tindakan <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-            <div class="reg-patient-body">
-                <div class="patient-avatar-box" style="background: linear-gradient(135deg, #E0F2FE, #BAE6FD); color: #0284C7;">
-                    AW
-                    <span class="gender-dot male"><i class="fa-solid fa-mars"></i></span>
-                </div>
-                <div class="reg-patient-details">
-                    <h5 class="patient-name">Ahmad Wijaya</h5>
-                    <div class="reg-meta-sub"><span class="rm-badge">RM-992837</span></div>
-                </div>
-            </div>
-            <div class="reg-card-divider"></div>
-            <div class="reg-card-footer">
-                <div class="reg-doctor-info">
-                    <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
-                    <span class="reg-doctor-name">drg. Anita</span>
-                </div>
-                <button class="btn-checkin-cool" style="padding: 8px 16px; background:#00C9A7; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; display:flex; gap:6px; align-items:center; transition:0.3s;" onclick="processCheckIn(this, 'Ahmad Wijaya')">
-                    <i class="fa-solid fa-qrcode"></i> Check-in
-                </button>
-            </div>
-        </div>
-
-        <!-- ====== DATA DUMMY 4: Pasien Laki-laki ====== -->
-        <div class="reg-queue-card" style="animation-delay: 0.05s; margin-bottom: 12px;">
-            <div class="reg-card-header">
-                <div class="reg-header-left">
-                    <div class="reg-queue-no">B-02</div>
-                    <div class="reg-time-tag">
-                        <i class="fa-regular fa-clock"></i>
-                        <span>09:45</span>
-                    </div>
-                </div>
-                <button class="btn-action-cool" onclick="openActionModal('Firman Syahputra', 'Pemasangan Behel', 'drg. Anita', 'B-02')">
-                    Tindakan <i class="fa-solid fa-arrow-right"></i>
-                </button>
-            </div>
-            <div class="reg-patient-body">
-                <div class="patient-avatar-box" style="background: linear-gradient(135deg, #E0F2FE, #BAE6FD); color: #0284C7;">
-                    FS
-                    <span class="gender-dot male"><i class="fa-solid fa-mars"></i></span>
-                </div>
-                <div class="reg-patient-details">
-                    <h5 class="patient-name">Firman Syahputra</h5>
-                    <div class="reg-meta-sub"><span class="rm-badge">RM-992838</span></div>
-                </div>
-            </div>
-            <div class="reg-card-divider"></div>
-            <div class="reg-card-footer">
-                <div class="reg-doctor-info">
-                    <span class="reg-doctor-label"><i class="fa-solid fa-user-doctor" style="font-size: 9px; color: #00b894;"></i> Ditangani oleh</span>
-                    <span class="reg-doctor-name">drg. Anita</span>
-                </div>
-                <button class="btn-checkin-cool" style="padding: 8px 16px; background:#00C9A7; color:white; border:none; border-radius:8px; cursor:pointer; font-weight:600; display:flex; gap:6px; align-items:center; transition:0.3s;" onclick="processCheckIn(this, 'Firman Syahputra')">
                     <i class="fa-solid fa-qrcode"></i> Check-in
                 </button>
             </div>
@@ -179,45 +109,41 @@
             <h5 style="font-size: 15px; font-weight: 700; color: #334155;">Pasien Tidak Ditemukan</h5>
             <p style="font-size: 12px; margin-top: 4px;">Coba gunakan kata kunci nama atau No RM yang lain.</p>
         </div>
+
     </div>
 
     <!-- Floating Scanner Button (FAB Kanan Bawah) -->
-    <div class="fab-scanner-wrapper" id="checkinFabScanner">
+    <div class="fab-scanner-wrapper" id="fabScannerWrapper">
         <div class="fab-scanner-pulse"></div>
         <button class="btn-fab-scanner" onclick="openQRScannerModal()">
             <i class="fa-solid fa-qrcode"></i>
         </button>
     </div>
 
-</div>
-
-<!-- MODAL UI CAMERA SCANNER -->
-<div class="scanner-modal" id="scannerModalOverlay">
-    <div class="scanner-modal-content">
-        <div class="scanner-modal-header">
-            <h4>Scan QR Code</h4>
-            <button class="scanner-modal-close" onclick="closeQRScannerModal()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-        
-        <!-- Area Kamera Virtual -->
-        <div class="scanner-viewport">
-            <div class="scan-frame">
-                <div class="frame-inner"></div>
-                <div class="scan-laser"></div>
+    <!-- MODAL UI CAMERA SCANNER (Dipindahkan ke dalam sidebar checkin) -->
+    <div class="scanner-modal" id="scannerModalOverlay">
+        <div class="scanner-modal-content">
+            <div class="scanner-modal-header">
+                <h4>Scan QR Code</h4>
+                <button class="scanner-modal-close" onclick="closeQRScannerModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
-            <i class="fa-solid fa-camera"></i>
-            <span style="font-size: 14px;">Membuka kamera...</span>
-        </div>
-        
-        <div class="scanner-footer">
-            Arahkan kamera ke QR Code Pasien
+            
+            <!-- Area Kamera Virtual -->
+            <div class="scanner-viewport">
+                <div class="scan-frame">
+                    <div class="frame-inner"></div>
+                    <div class="scan-laser"></div>
+                </div>
+                <i class="fa-solid fa-camera"></i>
+                <span style="font-size: 14px;">Membuka kamera...</span>
+            </div>
+            
+            <div class="scanner-footer">
+                Arahkan kamera ke QR Code Pasien
+            </div>
         </div>
     </div>
-</div>
 
-<!-- Script Khusus Check-in -->
-<script>
-   
-</script>
+</div>
