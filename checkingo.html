@@ -258,3 +258,19 @@
     </div>
 
 </div>
+<script>
+function initCheckInScrollEvent() {
+    const checkinScrollContainer = document.getElementById('checkinListContainer');
+    const checkinFabScanner = document.getElementById('fabScannerWrapper');
+    let scrollTimeout;
+    
+    if (checkinScrollContainer && checkinFabScanner) {
+        checkinScrollContainer.addEventListener('scroll', () => {
+            checkinFabScanner.classList.add('fab-hidden');
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                checkinFabScanner.classList.remove('fab-hidden');
+            }, 300);
+        });
+    }
+}</script>
