@@ -26,8 +26,8 @@
         </div>
     </div>
     
-    <!-- Konten List Pasien (Ditambahkan event onscroll) -->
-    <div class="checkin-content" id="checkinListContainer" onscroll="handleCheckinScroll(this)">
+    <!-- Konten List Pasien -->
+    <div class="checkin-content" id="checkinListContainer">
         
         <!-- ====== DATA DUMMY 1: Pasien Perempuan ====== -->
         <div class="reg-queue-card" style="animation-delay: 0s; margin-bottom: 12px;">
@@ -72,7 +72,7 @@
                     <div class="reg-queue-no">A-02</div>
                     <div class="reg-time-tag">
                         <i class="fa-regular fa-clock"></i>
-                        <span>08:30</span>
+                        <span>08:45</span>
                     </div>
                 </div>
                 <button class="btn-action-cool" onclick="openActionModal('Dian Aulia', 'Pembersihan Gigi', 'drg. Budi Santoso', 'A-02')">
@@ -144,7 +144,7 @@
                     <div class="reg-queue-no">B-02</div>
                     <div class="reg-time-tag">
                         <i class="fa-regular fa-clock"></i>
-                        <span>09:15</span>
+                        <span>09:45</span>
                     </div>
                 </div>
                 <button class="btn-action-cool" onclick="openActionModal('Firman Syahputra', 'Pemasangan Behel', 'drg. Anita', 'B-02')">
@@ -179,11 +179,9 @@
             <h5 style="font-size: 15px; font-weight: 700; color: #334155;">Pasien Tidak Ditemukan</h5>
             <p style="font-size: 12px; margin-top: 4px;">Coba gunakan kata kunci nama atau No RM yang lain.</p>
         </div>
-
     </div>
 
     <!-- Floating Scanner Button (FAB Kanan Bawah) -->
-    <!-- Diberi ID checkinFabScanner untuk diakses JS saat scroll -->
     <div class="fab-scanner-wrapper" id="checkinFabScanner">
         <div class="fab-scanner-pulse"></div>
         <button class="btn-fab-scanner" onclick="openQRScannerModal()">
@@ -194,8 +192,7 @@
 </div>
 
 <!-- MODAL UI CAMERA SCANNER -->
-<!-- Ditambahkan inline style position: absolute; agar selaras dengan area smartphone/aplikasi -->
-<div class="scanner-modal" id="scannerModalOverlay" style="position: absolute;">
+<div class="scanner-modal" id="scannerModalOverlay">
     <div class="scanner-modal-content">
         <div class="scanner-modal-header">
             <h4>Scan QR Code</h4>
@@ -222,10 +219,36 @@
 
 <!-- Script Khusus Check-in -->
 <script>
+    // Inisialisasi Deteksi Scroll untuk FAB Button saat script dimuat
+    (function initCheckinScroll() {
+        const checkinContent = document.getElementById('checkinListContainer');
+        const fabScanner = document.getElementById('checkinFabScanner');
+        let lastScrollTop = 0;
+
+        if (checkinContent && fabScanner) {
+            checkinContent.addEventListener('scroll', function() {
+                let currentScroll = checkinContent.scrollTop;
+                
+                // Jika scroll ke bawah dan melewati 30px
+                if (currentScroll > lastScrollTop && currentScroll > 30) {
+                    fabScanner.classList.add('fab-hidden');
+                } 
+                // Jika scroll ke atas
+                else {
+                    fabScanner.classList.remove('fab-hidden');
+                }
+                
+                // Cegah nilai negatif pada iOS (elastic scrolling)
+                lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+            }, { passive: true });
+        }
+    })();
+
     function closeCheckInPage() {
         const frame = document.getElementById('mainFrame');
         const sidebar = document.getElementById('checkinSidebar');
         
+        // Tutup search bar jika terbuka saat halaman ditutup
         const searchBar = document.getElementById('checkInSearchBar');
         if (searchBar && searchBar.classList.contains('active')) {
             toggleCheckInSearch();
@@ -239,6 +262,7 @@
         }, 400); 
     }
 
+    // Toggle Pencarian
     function toggleCheckInSearch() {
         const searchBar = document.getElementById('checkInSearchBar');
         const searchInput = document.getElementById('checkInSearchInput');
@@ -251,10 +275,11 @@
             }, 300);
         } else {
             searchInput.value = '';
-            filterCheckInPatients();
+            filterCheckInPatients(); // reset list saat ditutup
         }
     }
 
+    // Filter Pasien Real-time
     function filterCheckInPatients() {
         const query = document.getElementById('checkInSearchInput').value.toLowerCase().trim();
         const cards = document.querySelectorAll('#checkinListContainer .reg-queue-card');
@@ -282,52 +307,42 @@
         }
     }
 
+    // Trigger Buka UI Kamera QR Scanner
     function openQRScannerModal() {
         const modal = document.getElementById('scannerModalOverlay');
-        if(modal) {
+        if (modal) {
             modal.classList.add('active');
+        } else {
+            console.error("Modal Scanner Overlay tidak ditemukan.");
         }
     }
 
+    // Tutup UI Kamera QR Scanner
     function closeQRScannerModal() {
         const modal = document.getElementById('scannerModalOverlay');
-        if(modal) {
+        if (modal) {
             modal.classList.remove('active');
         }
     }
 
-    // Fungsi Animasi Hilangnya FAB saat discroll
-    let lastCheckinScroll = 0;
-    function handleCheckinScroll(element) {
-        const fab = document.getElementById('checkinFabScanner');
-        if (!fab) return;
-
-        let currentScroll = element.scrollTop;
-        
-        if (currentScroll > lastCheckinScroll && currentScroll > 20) {
-            // Scroll ke bawah: Sembunyikan FAB
-            fab.classList.add('fab-hidden');
-        } else {
-            // Scroll ke atas: Munculkan FAB
-            fab.classList.remove('fab-hidden');
-        }
-        lastCheckinScroll = currentScroll <= 0 ? 0 : currentScroll;
-    }
-
+    // Animasi Proses Loading Button Check-in
     function processCheckIn(btn, name) {
+        // Mengubah tampilan awal menjadi loading
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses...';
-        btn.style.pointerEvents = 'none'; 
+        btn.style.pointerEvents = 'none'; // Mencegah double klik
         
         setTimeout(() => {
+            // Setelah selesai, jadikan warna pudar/abu-abu
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Selesai';
-            btn.style.background = '#9CA3AF';
+            btn.style.background = '#9CA3AF'; // Warna abu-abu
             btn.style.color = '#F8FAFC';
             btn.style.boxShadow = 'none';
             btn.style.cursor = 'not-allowed';
             
+            // Pemberitahuan (bisa diganti dengan notifikasi modern / Toast)
             setTimeout(() => {
                 alert('Check-in berhasil dikonfirmasi untuk pasien ' + name + '!');
             }, 300);
-        }, 1200);
+        }, 1200); // Waktu loading 1.2 detik
     }
 </script>
